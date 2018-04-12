@@ -32,7 +32,7 @@ cv::Mat MSLDE::lightProcessing(cv::Mat X, double alfa1, double sigma, double nn,
 	cv::Mat X1;
 	X.convertTo(X1, CV_64FC1);
 
-	//×ª»»µ½¶ÔÊıÓò
+	//è½¬æ¢åˆ°å¯¹æ•°åŸŸ
 	X1 = X1 + cv::Scalar::all(1);
 	cv::log(X1, X1);
 	//cv::normalize(X1, X1, 1, 0, cv::NORM_MINMAX);
@@ -40,8 +40,8 @@ cv::Mat MSLDE::lightProcessing(cv::Mat X, double alfa1, double sigma, double nn,
 	double in_one_dim = (sqrt(nn) - 1) / 2;
 	
 	cv::Mat XF,F;
-	F = gaussian_kernal(2*ceil(3*sigma)+1,sigma);	//¶şÎ¬¸ßË¹ºË
-	filter2D(X1, XF, X1.depth(), F, cv::Point(-1, -1), 0.0f, IPL_BORDER_REPLICATE);	//¾í»ı²Ù×÷
+	F = gaussian_kernal(2*ceil(3*sigma)+1,sigma);	//äºŒç»´é«˜æ–¯æ ¸
+	filter2D(X1, XF, X1.depth(), F, cv::Point(-1, -1), 0.0f, IPL_BORDER_REPLICATE);	//å·ç§¯æ“ä½œ
 
 	Y = cv::Mat::zeros(size, CV_64FC1);
 	
@@ -53,7 +53,7 @@ cv::Mat MSLDE::lightProcessing(cv::Mat X, double alfa1, double sigma, double nn,
 	{
 		in_one_dim = k;
 		cv::Mat XFP;
-		copyMakeBorder(XF,XFP,k,k,k,k,IPL_BORDER_REFLECT );	//À©Õ¹±ßÔµ
+		copyMakeBorder(XF,XFP,k,k,k,k,IPL_BORDER_REFLECT );	//æ‰©å±•è¾¹ç¼˜
 		cv::Mat Ytemp = cv::Mat::zeros(size, CV_64FC1);
 
 		cv::Scalar argument;
@@ -82,14 +82,13 @@ cv::Mat MSLDE::lightProcessing(cv::Mat X, double alfa1, double sigma, double nn,
 		cv::normalize(Y, Y, 255, 0, cv::NORM_MINMAX);
 	return Y;
 }
-//ÔÙÀ´Ò»¸ö¼Èº¬ÓĞ¸ßË¹ºËÖ±¾¶kernelSize£¬ÓÖÓĞµ¥¶ÀµÄsigmaµÄ°æ±¾£º  
 //double sigma0 = (halfSize - 1)/ 2.0;  
 cv::Mat MSLDE::gaussian_kernal(int kernelSize, double sigma0)
 {
 	int halfSize = (kernelSize - 1) / 2;
 	cv::Mat K(kernelSize, kernelSize, CV_64FC1);
 
-	//Éú³É¶şÎ¬¸ßË¹ºË    
+	//ç”ŸæˆäºŒç»´é«˜æ–¯æ ¸    
 	double s2 = 2.0 * sigma0 * sigma0;
 	for (int i = (-halfSize); i <= halfSize; i++)
 	{
